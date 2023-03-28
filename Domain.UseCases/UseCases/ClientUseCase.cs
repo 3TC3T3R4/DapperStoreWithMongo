@@ -39,8 +39,15 @@ namespace Domain.UseCases.UseCases
             return await _clientRepository.GetAllClientsAsync();
         }
 
+        public async Task<Client> UpdateClient(string id, Client client)
+        {
+            return await _clientRepository.UpdateClientAsync(id, client);
+        }
 
-
+        public async Task<Client> DeleteClient(int id)
+        {
+            return await _clientRepository.DeleteClientAsync(id);
+        }
 
 
 
