@@ -50,10 +50,10 @@ namespace DriverAdapterMongo.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Client> UpdateClientAsync(int idClient, Client client)
+        public async Task<Client> UpdateClientAsync(string idClient, Client client)
         {
 
-            var filter = Builders<ClientEntity>.Filter.Eq(c => c.id_client   , idClient);
+            var filter = Builders<ClientEntity>.Filter.Eq(c => c.Id_Mongo   , idClient);
             var clientEntity = await coleccion.Find(filter).FirstOrDefaultAsync();
 
             clientEntity.id_client = client.id_client;
@@ -67,6 +67,30 @@ namespace DriverAdapterMongo.Repositories
             return client;
 
         }
+
+
+        public async Task<Client> DeleteClientAsync(int idClient)
+        {
+
+            var filter = Builders<ClientEntity>.Filter.Eq(c => c.id_client, idClient);
+            var clientEntity = await coleccion.Find(filter).FirstOrDefaultAsync();
+            clientEntity.state = false;
+
+
+
+
+            await coleccion.ReplaceOneAsync(filter, clientEntity);
+
+            return new Client
+            {
+                state = clientEntity.state
+
+            };
+                
+        }
+
+
+
 
     }
 }
