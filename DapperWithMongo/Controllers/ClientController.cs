@@ -34,7 +34,17 @@ namespace DapperWithMongo.Controllers
         }
 
 
+        [HttpPut("{id}")]
+        public async Task<Client> Update_Client(int id, [FromBody] Client client)
+        {
+            return await _clientUseCase.UpdateClient(id,client);
+        }
 
+        [HttpDelete]
+        public async Task<Client> Delete_Client([FromBody] InsertNewClient command)
+        {
+            return await _clientUseCase.AddClient(_mapper.Map<Client>(command));
+        }
 
 
     }

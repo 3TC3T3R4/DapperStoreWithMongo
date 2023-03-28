@@ -18,6 +18,8 @@ namespace Domain.UseCases.Gateway.Repository
 
         Task<Client> InsertClientSqlKataAsync(Client client);
 
+        Task<Client> UpdateClientAsync(int id,Client client);
+
 
 
     }

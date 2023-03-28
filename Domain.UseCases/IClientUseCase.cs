@@ -12,6 +12,9 @@ namespace Domain.UseCases
 
         Task<Client> InsertClientConKata(Client client);
 
+        Task<Client> UpdateClient(int id, Client client);
+
+
 
     }
 }

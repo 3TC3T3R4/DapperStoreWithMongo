@@ -3,6 +3,7 @@ using Domain.Entities.Entities;
 using Domain.UseCases.Gateway.Repository;
 using DriverAdapterMongo.Enitities;
 using DriverAdapterMongo.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 
@@ -21,10 +22,7 @@ namespace DriverAdapterMongo.Repositories
 
         public async Task<List<Client>> GetAllClientsAsync()
         {
-            //var client = await coleccion.FindAsync(Builders<ClientEntity>.Filter.Empty);
-
-            //var listClient = client.ToEnumerable().Select(client => _mapper.Map<Client>(client)).ToList();
-            //return listClient;
+           
             var filter = Builders<ClientEntity>.Filter.Eq(c => c.state, true);
 
             var client = await coleccion.FindAsync(filter);
@@ -52,7 +50,23 @@ namespace DriverAdapterMongo.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<Client> UpdateClientAsync(int idClient, Client client)
+        {
 
+            var filter = Builders<ClientEntity>.Filter.Eq(c => c.id_client   , idClient);
+            var clientEntity = await coleccion.Find(filter).FirstOrDefaultAsync();
+
+            clientEntity.id_client = client.id_client;
+            clientEntity.id_number = client.id_number;
+            clientEntity.type_id = client.type_id;
+            clientEntity.name = client.name;
+
+
+             await coleccion.ReplaceOneAsync(filter, clientEntity);
+
+            return client;
+
+        }
 
     }
 }
